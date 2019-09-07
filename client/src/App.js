@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Customers from './components/customers';
+import Groups from './components/groups';
+import Recipes from './components/recipes';
+import 'bootstrap/dist/css/bootstrap.css';
+
+import {Navbar } from 'reactstrap';
+
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">React Express Starter</h1>
-        </header>
-        <Customers />
-      </div>
+      <React.Fragment>
+        <Navbar></Navbar>
+        <div className="Groups">
+          <Groups />
+        </div>
+        <div>
+          <Recipes />
+        </div>
+      </React.Fragment>
     );
   }
 }

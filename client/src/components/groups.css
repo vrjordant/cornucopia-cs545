@@ -1,0 +1,45 @@
+ul {
+  padding:0;
+  list-style:none;
+  width: 30%;
+  margin:auto;
+}
+
+li{
+  font-size:1.2rem;
+  line-height: 2rem;
+  border-bottom: 1px dotted #777;
+}
+h2{
+  padding-top: 22px;
+  text-align: center;
+}
+.Groups{
+  background-color: rgb(243, 243, 231);
+  border: .5px ;
+  height: 100vh;
+  margin-left: 200px;
+  margin-top: 100px;
+  width: 20%;
+}
+
+.list-group-item{
+  width: 231px;
+  margin-top: 10px;
+  font-size : 16px
+
+}
+
+.list-group-item:hover { 
+  background-color: rgb(189, 187, 187);
+  cursor: pointer
+}
+.addGroup{
+  background-color: green !important
+}
+.selected{
+  background-color: rgb(189, 187, 187) !important
+}
+ul{
+  align-items: center
+}
