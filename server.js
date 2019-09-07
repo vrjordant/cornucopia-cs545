@@ -24,6 +24,7 @@ mongoose
 app.use('/api/items', require('./routes/api/items'));
 app.use('/api/groups', require('./routes/api/groups'));
 app.use('/api/users', require('./routes/api/users'));
+app.use('/api/recipes', require('./routes/api/recipes'));
 
 const Group = require("./models/Group");
 

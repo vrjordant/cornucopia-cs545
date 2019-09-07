@@ -5,13 +5,19 @@ const router = express.Router();
 const Group = require('../../models/Group');
 // User Model
 const User = require('../../models/User');
+// Recipe Model
+const Recipe = require('../../models/Recipe');
 
-// @route   GET api/groups
-// @desc    Get Group by Id
+// @route   GET api/groups/:id
+// @desc    Get Group by Id, including Recipes
 // @access  Public
-router.get('/:id', (req, res) => {
-  Group.findById(req.params.id)
-    .then(group => res.json(group));
+router.get('/:id', async (req, res) => {
+  let group = await Group.findById(req.params.id).lean();
+  // Replaces Recipe Ids with actual Recipes
+  const recipeIds = group.recipes;
+  const recipeObjects = await Recipe.find( { '_id': { $in: recipeIds } } );
+  group.recipes = recipeObjects;
+  res.json(group);
 });
 
 // @route   POST api/groups

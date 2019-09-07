@@ -3,12 +3,16 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 // Create Schema
-const UserSchema = new Schema({
+const RecipeSchema = new Schema({
   name: {
     type: String,
     required: true
   },
   description: {
+  	type: String,
+  	required: true
+  },
+  image: {
   	type: String,
   	required: true
   },
@@ -20,7 +24,7 @@ const UserSchema = new Schema({
   	type: String,
   	required: true
   },
-  total_time: {
+  totalTime: {
   	type: Number,
   	required: true
   },
@@ -30,4 +34,4 @@ const UserSchema = new Schema({
   }
 });
 
-module.exports = User = mongoose.model('user', UserSchema);
+module.exports = Recipe = mongoose.model('recipe', RecipeSchema);
