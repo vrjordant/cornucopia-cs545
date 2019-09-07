@@ -3,6 +3,8 @@ const router = express.Router();
 
 // Group Model
 const Group = require('../../models/Group');
+// User Model
+const User = require('../../models/User');
 
 // @route   GET api/groups
 // @desc    Get Group by Id
@@ -15,11 +17,18 @@ router.get('/:id', (req, res) => {
 // @route   POST api/groups
 // @desc    Create a Group
 // @access  Private
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
+  let newOwnerId = req.body.owner;
   const newGroup = new Group({
     name: req.body.name,
-    owner: req.body.owner
+    owner: newOwnerId
   });
+
+  // Post new group to user
+  let newOwner = await User.findById(newOwnerId);
+  let updatedGroups = newOwner.groups;
+  updatedGroups.push(newGroup._id);
+  await User.updateOne({ _id: newOwnerId }, { groups: updatedGroups });
 
   newGroup.save().then(group => res.json(group));
 });
