@@ -22,7 +22,19 @@
   font-size: large;
 }
 
-.groups{
-  width : 20%
+
+.Groups{
+  display: block !important;
+  background-color: rgb(243, 243, 231);
+  height: 100vh;
+  margin-left: 200px;
+  margin-top: 100px;
+  width: 20%;
+}
+
+.Recipes{
+  background-color: rgb(243, 243, 231);
+  width: 51%;
+  margin: 100px 100px 0px 29px;
 }
 

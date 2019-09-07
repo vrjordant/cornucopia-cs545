@@ -14,14 +14,7 @@ h2{
   padding-top: 22px;
   text-align: center;
 }
-.Groups{
-  background-color: rgb(243, 243, 231);
-  border: .5px ;
-  height: 100vh;
-  margin-left: 200px;
-  margin-top: 100px;
-  width: 20%;
-}
+
 
 .list-group-item{
   width: 231px;

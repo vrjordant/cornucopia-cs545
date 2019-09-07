@@ -4,7 +4,7 @@ import Groups from './components/groups';
 import Recipes from './components/recipes';
 import 'bootstrap/dist/css/bootstrap.css';
 
-import {Navbar } from 'reactstrap';
+import { Navbar } from 'reactstrap';
 
 
 class App extends Component {
@@ -12,12 +12,15 @@ class App extends Component {
     return (
       <React.Fragment>
         <Navbar></Navbar>
-        <div className="Groups">
-          <Groups />
+        <div style={{display: "flex"}}>
+          <div className="Groups">
+            <Groups />
+          </div>
+          <div className="Recipes">
+            <Recipes />
+          </div>
         </div>
-        <div>
-          <Recipes />
-        </div>
+
       </React.Fragment>
     );
   }
