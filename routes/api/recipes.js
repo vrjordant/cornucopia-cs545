@@ -6,6 +6,21 @@ const Recipe = require('../../models/Recipe');
 // Group Model
 const Group = require('../../models/Group');
 
+// @route   GET api/recipes/scrape
+// @desc    Get Recipe data using Python scraper
+// @access  Public
+router.get('/scrape', async (req, res) => {
+  console.log("Starting to scrape");
+  // Spawns Recipe scraper
+  const recipeLink = req.body.recipeLink;
+  const spawn = require("child_process").spawn;
+  const pythonProcess = spawn('python', ['./test2.py', recipeLink]);
+  // Reads data retrieved from Recipe scraper
+  pythonProcess.stdout.on('data', (data) => {
+    // Should do something with data, but doesn't work
+  });
+});
+
 // @route   GET api/recipes/:id
 // @desc    Get All Recipes from Group
 // @access  Public
