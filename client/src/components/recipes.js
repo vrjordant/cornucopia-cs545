@@ -4,9 +4,13 @@ import { ListGroup, ListGroupItem, Alert, Modal, ModalHeader, ModalBody, ModalFo
 
 import './recipes.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import FileBase64 from 'react-file-base64';
+
 
 import pic_data from './pic.js'
 const axios = require('axios');
+const fs = require("fs");
+
 
 
 class Recipes extends Component {
@@ -15,57 +19,33 @@ class Recipes extends Component {
         this.state = {
             recipes: [],
             shareGroup: false,
+            createRecipe: false,
             copied: false,
+            file: null,
+            newRecipeData: {
+                title: "test",
+                description: "",
+                ingredients: ["1", "2"],
+                instructions: "",
+                image: "",
+            },
         }
     }
 
     async componentDidMount() {
-        //api to get recipes
-        let recipes = [{
-            _id: 1,
-            name: "good food",
-            description: "Pede sem diam a, maecenas tellus. Vitae venenatis pede integer nulla. In donec dolor elit vivamus perspiciatis. Ipsum faucibus lacus nonummy ipsum id leo, mauris dolor suspendisse sollicitudin augue, quis elit nec tortor sed ultrices risus. Leo felis turpis sit lacinia",
-            ingredients: ["1 cup of food ", "2 cups of food", "1 cup of smiles", "2 tsp of happiness"],
-            instruction: "Pede sem diam a, maecenas tellus. Vitae venenatis pede integer nulla. In donec dolor elit vivamus perspiciatis. Ipsum faucibus lacus nonummy ipsum id leo, mauris dolor suspendisse sollicitudin augue, quis elit nec tortor sed ultrices risus. Leo felis turpis sit lacinia",
-            total_time: 100,
-            yields: "1 food",
-            clicked: false,
-            data: pic_data
-
-        },
-        {
-            _id: 2,
-            name: "good food",
-            description: "Pede sem diam a, maecenas tellus. Vitae venenatis pede integer nulla. In donec dolor elit vivamus perspiciatis. Ipsum faucibus lacus nonummy ipsum id leo, mauris dolor suspendisse sollicitudin augue, quis elit nec tortor sed ultrices risus. Leo felis turpis sit lacinia",
-            ingredients: ["1 food ", "2 food"],
-            instruction: "good food here",
-            total_time: 100,
-            yields: "1 food",
-            clicked: false,
-            data: pic_data
-
-        },
-        {
-            _id: 3,
-            name: "good food",
-            description: "Pede sem diam a, maecenas tellus. Vitae venenatis pede integer nulla. In donec dolor elit vivamus perspiciatis. Ipsum faucibus lacus nonummy ipsum id leo, mauris dolor suspendisse sollicitudin augue, quis elit nec tortor sed ultrices risus. Leo felis turpis sit lacinia",
-            ingredients: ["1 food ", "2 food"],
-            instruction: "good food here",
-            total_time: 100,
-            yields: "1 food",
-            clicked: false,
-            data: pic_data
-
-        }]
-        this.setState({
-            recipes: recipes
-        })
-
-
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
+    async componentWillReceiveProps(nextProps) {
+        if (this.props.selectedGroup != nextProps.selectedGroup) {
+
+            let data = await axios.get("/api/groups/" + nextProps.selectedGroup._id)
+
+            let recipes = data.data.recipes
+
+            this.setState({
+                recipes: recipes
+            })
+        }
     }
 
     clickRecipe = (id) => {
@@ -82,6 +62,12 @@ class Recipes extends Component {
 
     }
 
+    toggleCreate = () => {
+        this.setState({
+            createRecipe: !this.state.createRecipe,
+        })
+    }
+
     toggleShare = () => {
 
         this.setState({
@@ -90,20 +76,154 @@ class Recipes extends Component {
         })
     }
 
-    copyLink = (groupInv) =>{
+    copyLink = (groupInv) => {
 
         navigator.clipboard.writeText(groupInv)
 
         this.setState({
-            copied:true
+            copied: true
         })
 
+    }
+
+    addIngredient = (e) => {
+        e.preventDefault()
+
+        let recipe = { ...this.state.newRecipeData }
+        recipe.ingredients.push(e.target[0].value)
+        e.target[0].value = ""
+
+        this.setState({
+            newRecipeData: recipe
+        })
+    }
+
+    updateValues = (e, field) => {
+        let recipe = { ...this.state.newRecipeData }
+
+        switch (field) {
+            case "title":
+                recipe.title = e.target.value
+                break
+            case "description":
+                recipe.description = e.target.value
+                break
+            case "instructions":
+                recipe.instructions = e.target.value
+                break;
+
+        }
+
+        this.setState({
+            newRecipeData: recipe
+        })
+
+    }
+
+    uploadPicture = (e) => {
+        console.log(e)
+
+        let recipe = { ...this.state.newRecipeData }
+        recipe.image = e[0].base64
+        this.setState({
+            newRecipeData: recipe
+        })
+
+    }
+
+    addRecipe = async() => {
+        console.log(this.state)
+        let result = await axios.post("/api/recipes/" + this.props.selectedGroup._id, this.state.createRecipe)
     }
 
     render() {
         let groupInv = "http://localhost:3000/join/" + this.props.selectedGroup._id
         return (
             <React.Fragment>
+                <Modal isOpen={this.state.createRecipe} toggle={this.toggleCreate}>
+                    <ModalHeader toggle={this.toggleCreate}>Add A Recipe!</ModalHeader>
+                    <ModalBody>
+
+                        Enter A recipe URL to AutoFill
+
+                        <div style={{ display: "flex" }}>
+                            URL
+                            <input type="text" className="recipeUrl"></input>
+                            <button className="getUrl"></button>
+                        </div>
+
+                        <br>
+                        </br>
+
+                        <div style={{ display: "flex" }}>
+                            Title
+                            <input type="text" className="title" onChange={(e) => this.updateValues(e, "title")}
+                                value={this.state.newRecipeData.title}></input>
+
+                        </div>
+
+                        <FileBase64
+                            multiple={true}
+                            onDone={this.uploadPicture} />
+                        {
+                        /* <input type="file" name="myImage" onChange={this.uploadPicture} accept="image/x-png,image/gif,image/jpeg" /> */}
+
+
+
+                        <br>
+                        </br>
+
+                        <div style={{ display: "flex" }}>
+                            Description
+                            <input type="text" className="description" onChange={(e) => this.updateValues(e, "description")}
+                                value={this.state.newRecipeData.description}></input>
+
+                        </div>
+                        <br></br>
+
+                        Ingredients
+                        {this.state.newRecipeData.ingredients.map((ingredient, index) => (
+
+                            <div key={index} style={{ display: "flex" }}>
+
+                                {ingredient}
+                                <button className="delete">X</button>
+
+                            </div>
+
+                        ))}
+
+
+                        <br>
+                        </br>
+                        <div style={{ display: "flex" }}>
+                            Add ingredient
+
+                            <form onSubmit={this.addIngredient}>
+                                <input type="text" className="ingredient"></input>
+                                <button></button>
+
+                            </form>
+
+                        </div>
+
+
+
+
+                        Instructions
+
+                        <input type="text" className="instructions" onChange={(e) => this.updateValues(e, "instructions")}
+                            value={this.state.newRecipeData.instructions}></input>
+
+
+
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={this.addRecipe}>Add Recipe</Button>
+                        <Button color="secondary" onClick={this.toggleCreate}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+
                 <Modal isOpen={this.state.shareGroup} toggle={this.toggleShare}>
                     <ModalHeader toggle={this.toggle}>Copy this Link and Send to your Friends!</ModalHeader>
                     <ModalBody>
@@ -111,7 +231,7 @@ class Recipes extends Component {
                         <div style={{ display: "flex" }}>
 
                             <p>{groupInv}</p>
-                            <button className="copyButton" onClick={() => this.copyLink(groupInv) }> Copy </button>
+                            <button className="copyButton" onClick={() => this.copyLink(groupInv)}> Copy </button>
 
                         </div>
                         <Alert color="info" isOpen={this.state.copied}>
@@ -124,10 +244,17 @@ class Recipes extends Component {
                 </Modal>
 
                 <h2>Recipes</h2>
-                <div className="inviteFriends">
-                    <h6>Send a group invite to your friend</h6>
-                    <button onClick={this.toggleShare}>Share</button>
+                <div style={{ display: "flex" }}>
+                    <div className="inviteFriends">
+                        <button onClick={this.toggleShare}>Share This Group!</button>
+                    </div>
+
+                    <div className="addRecipe">
+                        <button onClick={this.toggleCreate}>Create Recipe</button>
+                    </div>
+
                 </div>
+
 
 
 
@@ -135,8 +262,8 @@ class Recipes extends Component {
                     {this.state.recipes.map((recipe, index) => (
                         <ListGroupItem className={"recipe"}
                             key={index} onClick={() => this.clickRecipe(recipe._id)}>
-                            <div>
-                                <img src={`data:image/png;base64${recipe.data}`} alt="Picc" />
+                            <div style={{ overflow: "auto" }}>
+                                <img src={`data:image/png;base64,${recipe.image}`} alt="Picc" />
                                 <h5 className="recipeName">{recipe.name}</h5>
                                 <div className="recipeDescription">{recipe.description}</div>
                             </div>
@@ -158,7 +285,7 @@ class Recipes extends Component {
                                         <h6>
                                             Instructions
                                         </h6>
-                                        {recipe.instruction}
+                                        {recipe.instructions}
                                     </div>
                                 }
 

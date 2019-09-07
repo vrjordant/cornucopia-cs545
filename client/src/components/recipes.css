@@ -39,7 +39,12 @@ img{
   }
 
 .inviteFriends {
-    margin-left: 10px
+    margin-left: 111px
+}
+
+.addRecipe{
+    float:right;
+    margin-left: 295px
 }
 
 .copyButton {
