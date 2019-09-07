@@ -23,6 +23,7 @@ mongoose
 // Use Routes
 app.use('/api/items', require('./routes/api/items'));
 app.use('/api/groups', require('./routes/api/groups'));
+app.use('/api/users', require('./routes/api/users'));
 
 const Group = require("./models/Group");
 
