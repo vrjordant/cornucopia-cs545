@@ -13,7 +13,7 @@ router.get('/:id', (req, res) => {
 });
 
 // @route   POST api/groups
-// @desc    Create A Group
+// @desc    Create a Group
 // @access  Private
 router.post('/', (req, res) => {
   const newGroup = new Group({

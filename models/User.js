@@ -4,9 +4,13 @@ const ObjectId = Schema.Types.ObjectId;
 
 // Create Schema
 const UserSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
   groups: {
     type: [ObjectId]
   }
 });
 
-module.exports = Group = mongoose.model('group', GroupSchema);
+module.exports = User = mongoose.model('user', UserSchema);
