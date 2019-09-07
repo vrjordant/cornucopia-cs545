@@ -12,15 +12,16 @@ router.get('/:id', (req, res) => {
     .then(group => res.json(group));
 });
 
-// @route   POST api/items
-// @desc    Create An Item
+// @route   POST api/groups
+// @desc    Create A Group
 // @access  Private
 router.post('/', (req, res) => {
-  const newItem = new Item({
-    name: req.body.name
+  const newGroup = new Group({
+    name: req.body.name,
+    owner: req.body.owner
   });
 
-  newItem.save().then(item => res.json(item));
+  newGroup.save().then(group => res.json(group));
 });
 
 // @route   DELETE api/items/:id
