@@ -8,16 +8,30 @@ import { Navbar } from 'reactstrap';
 
 
 class App extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      selectedGroup: {}
+    }
+  }
+
+  selectGroup = (group) => {
+    this.setState({
+      selectedGroup : group
+    })
+  }
+
   render() {
     return (
       <React.Fragment>
         <Navbar></Navbar>
-        <div style={{display: "flex"}}>
+        <div style={{ display: "flex" }}>
           <div className="Groups">
-            <Groups />
+            <Groups selectGroup={this.selectGroup}/>
           </div>
-          <div className="Recipes">
-            <Recipes />
+          <div className="Recipes" >
+            <Recipes selectedGroup={this.state.selectedGroup}/>
           </div>
         </div>
 

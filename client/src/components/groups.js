@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { ListGroup, ListGroupItem, Badge, Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap'
+import { ListGroup, ListGroupItem, Badge, Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
 
 import './groups.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -13,7 +13,7 @@ class Groups extends Component {
     super();
     this.state = {
       groups: [],
-      selectedGroupID: 0,
+      selectedGroup: 0,
       showModal: false,
       createGroupName: "",
       successfulCreation : false,
@@ -22,22 +22,34 @@ class Groups extends Component {
 
   async componentDidMount() {
 
-    //api call
     let data = await axios.get("/api/users/" + userId)
-    console.log(data)
+
+    let group = {}
+    if(data.data[0]._id){
+      group = data.data[0]
+      this.props.selectGroup(data.data[0])
+    }
 
     this.setState({
-      groups: data.data
+      groups: data.data,
+      selectedGroup : group
     })
+
+  }
+
+  async componentWillReceiveProps(){
+    //if a recipe is deleted or added call api to update the group so the correct values are there
   }
 
 
-  onSelectGroup = (id) => {
+  onSelectGroup = (group) => {
     //select group to get recipes
+    console.log(group)
     this.setState({
-      selectedGroupID: id
+      selectedGroup: group
     })
-    console.log(id)
+    this.props.selectGroup(group)
+
   }
 
   toggle = () => {
@@ -74,12 +86,12 @@ class Groups extends Component {
         <h2>Groups</h2>
         <ListGroup>
           {this.state.groups.map((group, index) => (
-            <ListGroupItem className={`${this.state.selectedGroupID === group._id ? 'selected' : ''}`}
-              key={index} onClick={() => this.onSelectGroup(group._id)}>
+            <ListGroupItem className={`group${this.state.selectedGroup._id === group._id ? 'Selected' : ''}`}
+              key={index} onClick={() => this.onSelectGroup(group)}>
               {group.name} <Badge pill>{group.recipes.length}</Badge></ListGroupItem>
           ))}
 
-          <ListGroupItem onClick={this.toggle}>Create a new Group <Badge className="addGroup" pill> + </Badge></ListGroupItem>
+          <ListGroupItem className={"group"} onClick={this.toggle}>Create a new Group <Badge className="addGroup" pill> + </Badge></ListGroupItem>
 
         </ListGroup>
 

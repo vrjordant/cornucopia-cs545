@@ -1,0 +1,49 @@
+
+
+.recipe{
+    width: 550px;
+    margin-top: 10px;
+    font-size : 16px;
+    cursor : pointer
+}
+
+.recipeDescription{
+    margin-left: 200px;
+    font-size: 10px;
+}
+.recipeName{
+    font-weight: bold;
+    margin-left: 200px;
+}
+
+i {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    position: absolute;
+    bottom: 8px;
+    right: 11px;
+    padding: 3px;
+  }
+img{
+    height: 110px;
+    float:left;
+}
+.up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+  }
+  
+  .down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }
+
+.inviteFriends {
+    margin-left: 10px
+}
+
+.copyButton {
+    margin-left: 12px;
+    height: 26px;
+    padding: 0px 0px 0px 0px;
+}
