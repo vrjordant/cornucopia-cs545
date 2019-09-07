@@ -20,15 +20,18 @@ mongoose
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
 
+// Use Routes
+app.use('/api/items', require('./routes/api/items'));
+app.use('/api/groups', require('./routes/api/groups'));
 
-const Item = require("./models/Item");
+const Group = require("./models/Group");
 
 app.post('/' , (req, res) => {
-  const newItem = new Item({
+  const newGroup = new Group({
     name: req.body.name
   });
 
-  newItem.save().then(item => res.json(item));
+  newGroup.save().then(group => res.json(group));
 
 });
 

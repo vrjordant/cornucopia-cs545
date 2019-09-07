@@ -8,10 +8,13 @@ const GroupSchema = new Schema({
     type: String,
     required: true
   },
+  owner: {
+  	type: ObjectId,
+  	required: true
+  },
   recipes: {
-    type: [ObjectId],
-    default: Date.now
+    type: [ObjectId]
   }
 });
 
-module.exports = Item = mongoose.model('item', ItemSchema);
+module.exports = Group = mongoose.model('group', GroupSchema);
