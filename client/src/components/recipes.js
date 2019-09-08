@@ -141,12 +141,23 @@ class Recipes extends Component {
         let result = await axios.post("/api/recipes/" + this.props.selectedGroup._id, formData)
         let recipes = [...this.state.recipes]
         recipes.push(result.data)
-        this.setState({recipes : recipes})
+        this.setState({
+            recipes : recipes,
+            createRecipe: false
+            
+        })
         this.props.addRecipe()
 
     }
 
-    deleteIngredient = () => {
+    deleteIngredient = (ingredient) => {
+        var recipe = {...this.state.newRecipeData}
+
+        var index = recipe.ingredients.indexOf(ingredient)
+        if (index !== -1) {
+          recipe.ingredients.splice(index, 1);
+          this.setState({newRecipeData: recipe});
+        }
     }
 
     render() {
@@ -156,7 +167,7 @@ class Recipes extends Component {
                 <Modal isOpen={this.state.createRecipe} toggle={this.toggleCreate}>
                     <ModalHeader toggle={this.toggleCreate}>Add A Recipe!</ModalHeader>
                     <ModalBody>
-{/* 
+                    {/* 
                         Enter A recipe URL to AutoFill
 
                         <div style={{ display: "flex" }}>
@@ -187,7 +198,7 @@ class Recipes extends Component {
                         </br>
 
                         <div style={{ display: "flex" }}>
-                            Description
+                            Description:
                             <textarea type="text" className="textInput" onChange={(e) => this.updateValues(e, "description")}
                                 value={this.state.newRecipeData.description}></textarea>
 
@@ -241,12 +252,9 @@ class Recipes extends Component {
                     <ModalHeader toggle={this.toggle}>Copy this Link and Send to your Friends!</ModalHeader>
                     <ModalBody>
 
-                        <div style={{ display: "flex" }}>
-
                             <p>{groupInv}</p>
                             <button className="copyButton" onClick={() => this.copyLink(groupInv)}> Copy </button>
 
-                        </div>
                         <Alert color="info" isOpen={this.state.copied}>
                             Link Copied
                         </Alert>
