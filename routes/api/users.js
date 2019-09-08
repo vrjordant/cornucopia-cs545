@@ -23,7 +23,8 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   const newUser = new User({
     name: req.body.name,
-    groups: req.body.groups
+    username: req.body.username,
+    password: req.body.password
   });
 
   newUser.save().then(user => res.json(user));
