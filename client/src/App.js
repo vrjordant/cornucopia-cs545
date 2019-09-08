@@ -3,35 +3,66 @@ import './App.css';
 import Groups from './components/groups';
 import Recipes from './components/recipes';
 import 'bootstrap/dist/css/bootstrap.css';
+import Cookies from 'universal-cookie';
 
-import { Navbar } from 'reactstrap';
 
+import { Navbar } from 'react-bootstrap';
+
+let userId = "5d731e8f8ff90c0198122b81"
 
 class App extends Component {
 
   constructor() {
     super();
     this.state = {
-      selectedGroup: {}
+      selectedGroup: {},
+      toggleRecipe: false,
+      loggedIn: false,
+
     }
+    const cookies = new Cookies();
+    cookies.set('id', userId, { path: '/' });
+    console.log(cookies.get('id')); // Pacman
+
   }
 
   selectGroup = (group) => {
     this.setState({
-      selectedGroup : group
+      selectedGroup: group,
     })
   }
 
+  addRecipe = () => {
+    console.log("here")
+    this.setState({ toggleRecipe: !this.state.toggleRecipe })
+  }
+
+  compon
+
+
+
   render() {
+    console.log()
     return (
       <React.Fragment>
-        <Navbar></Navbar>
+        <Navbar  variant="dark">
+          <Navbar.Brand href="#home">
+            <img
+              alt=""
+              src="cornucopia.png"
+              width="50"
+              height="34"
+              className="d-inline-block align-top"
+            />
+            {' Cornucopia '}
+          </Navbar.Brand>
+        </Navbar> 
         <div style={{ display: "flex" }}>
           <div className="Groups">
-            <Groups selectGroup={this.selectGroup}/>
+            <Groups userId={userId} toggleRecipe={this.state.toggleRecipe} selectGroup={this.selectGroup} />
           </div>
           <div className="Recipes" >
-            <Recipes selectedGroup={this.state.selectedGroup}/>
+            <Recipes addRecipe={this.addRecipe} selectedGroup={this.state.selectedGroup} />
           </div>
         </div>
 

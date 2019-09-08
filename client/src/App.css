@@ -38,3 +38,13 @@
   margin: 100px 100px 0px 29px;
 }
 
+.navbar {
+  background-color: beige !important;
+
+  margin-left: 198px;
+  margin-right: 207px;
+}
+
+.navbar-brand{
+  color:black !important
+}

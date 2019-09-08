@@ -4,7 +4,6 @@ import { ListGroup, ListGroupItem, Alert, Modal, ModalHeader, ModalBody, ModalFo
 
 import './recipes.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import FileBase64 from 'react-file-base64';
 
 
 import pic_data from './pic.js'
@@ -23,11 +22,13 @@ class Recipes extends Component {
             copied: false,
             file: null,
             newRecipeData: {
-                title: "test",
+                name: "test",
                 description: "",
                 ingredients: ["1", "2"],
                 instructions: "",
                 image: "",
+                totalTime: 0,
+                yields: "0"
             },
         }
     }
@@ -103,7 +104,7 @@ class Recipes extends Component {
 
         switch (field) {
             case "title":
-                recipe.title = e.target.value
+                recipe.name = e.target.value
                 break
             case "description":
                 recipe.description = e.target.value
@@ -121,19 +122,29 @@ class Recipes extends Component {
     }
 
     uploadPicture = (e) => {
-        console.log(e)
+        console.log(e.target.files)
 
-        let recipe = { ...this.state.newRecipeData }
-        recipe.image = e[0].base64
         this.setState({
-            newRecipeData: recipe
+            file: e.target.files[0]
         })
 
     }
 
     addRecipe = async() => {
-        console.log(this.state)
-        let result = await axios.post("/api/recipes/" + this.props.selectedGroup._id, this.state.createRecipe)
+
+        var formData = new FormData();
+        formData.append("file", this.state.file)
+        formData.append("recipe", JSON.stringify(this.state.newRecipeData))
+
+        let result = await axios.post("/api/recipes/" + this.props.selectedGroup._id, formData)
+        let recipes = [...this.state.recipes]
+        recipes.push(result.data)
+        this.setState({recipes : recipes})
+        this.props.addRecipe()
+
+    }
+
+    deleteIngredient = () => {
     }
 
     render() {
@@ -143,7 +154,7 @@ class Recipes extends Component {
                 <Modal isOpen={this.state.createRecipe} toggle={this.toggleCreate}>
                     <ModalHeader toggle={this.toggleCreate}>Add A Recipe!</ModalHeader>
                     <ModalBody>
-
+{/* 
                         Enter A recipe URL to AutoFill
 
                         <div style={{ display: "flex" }}>
@@ -153,20 +164,20 @@ class Recipes extends Component {
                         </div>
 
                         <br>
-                        </br>
+                        </br> */}
 
                         <div style={{ display: "flex" }}>
                             Title
-                            <input type="text" className="title" onChange={(e) => this.updateValues(e, "title")}
+                            <input type="text" className="textInput" onChange={(e) => this.updateValues(e, "title")}
                                 value={this.state.newRecipeData.title}></input>
 
                         </div>
 
-                        <FileBase64
-                            multiple={true}
-                            onDone={this.uploadPicture} />
-                        {
-                        /* <input type="file" name="myImage" onChange={this.uploadPicture} accept="image/x-png,image/gif,image/jpeg" /> */}
+
+                        <br>
+                        </br>
+
+                        <input type="file" name="file" onChange={this.uploadPicture} accept="image/x-png,image/gif,image/jpeg" />
 
 
 
@@ -175,8 +186,8 @@ class Recipes extends Component {
 
                         <div style={{ display: "flex" }}>
                             Description
-                            <input type="text" className="description" onChange={(e) => this.updateValues(e, "description")}
-                                value={this.state.newRecipeData.description}></input>
+                            <textarea type="text" className="textInput" onChange={(e) => this.updateValues(e, "description")}
+                                value={this.state.newRecipeData.description}></textarea>
 
                         </div>
                         <br></br>
@@ -187,7 +198,7 @@ class Recipes extends Component {
                             <div key={index} style={{ display: "flex" }}>
 
                                 {ingredient}
-                                <button className="delete">X</button>
+                                <button onClick={() => this.deleteIngredient(ingredient)}className="delete">X</button>
 
                             </div>
 
@@ -212,7 +223,7 @@ class Recipes extends Component {
 
                         Instructions
 
-                        <input type="text" className="instructions" onChange={(e) => this.updateValues(e, "instructions")}
+                        <input type="text" className="textInput" onChange={(e) => this.updateValues(e, "instructions")}
                             value={this.state.newRecipeData.instructions}></input>
 
 
@@ -263,7 +274,7 @@ class Recipes extends Component {
                         <ListGroupItem className={"recipe"}
                             key={index} onClick={() => this.clickRecipe(recipe._id)}>
                             <div style={{ overflow: "auto" }}>
-                                <img src={`data:image/png;base64,${recipe.image}`} alt="Picc" />
+                                <img className="recipePic" src={`data:image/png;base64,${recipe.image}`} alt="Picc" />
                                 <h5 className="recipeName">{recipe.name}</h5>
                                 <div className="recipeDescription">{recipe.description}</div>
                             </div>

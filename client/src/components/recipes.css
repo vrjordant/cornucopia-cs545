@@ -24,7 +24,7 @@ i {
     right: 11px;
     padding: 3px;
   }
-img{
+.recipePic{
     height: 110px;
     float:left;
 }
@@ -51,4 +51,9 @@ img{
     margin-left: 12px;
     height: 26px;
     padding: 0px 0px 0px 0px;
+}
+
+.textInput{
+    border: 0px;
+    border-bottom: 1px solid black 
 }

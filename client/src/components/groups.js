@@ -6,7 +6,7 @@ import './groups.css';
 import 'bootstrap/dist/css/bootstrap.css';
 const axios = require('axios');
 
-let userId = "5d731e8f8ff90c0198122b81"
+
 
 class Groups extends Component {
   constructor() {
@@ -22,7 +22,7 @@ class Groups extends Component {
 
   async componentDidMount() {
 
-    let data = await axios.get("/api/users/" + userId)
+    let data = await axios.get("/api/users/" + this.props.userId)
 
     let group = {}
     if(data.data[0]._id){
@@ -37,8 +37,21 @@ class Groups extends Component {
 
   }
 
-  async componentWillReceiveProps(){
+  async componentWillReceiveProps(nextProps){
     //if a recipe is deleted or added call api to update the group so the correct values are there
+    if(this.props.toggleRecipe !== nextProps.toggleRecipe){
+      console.log("h")
+      let data = await axios.get("/api/users/" + this.props.userId)
+
+      if(data.data[0]._id){
+        this.props.selectGroup(data.data[0])
+      }
+  
+      this.setState({
+        groups: data.data,
+      })
+    }
+
   }
 
 
@@ -62,7 +75,7 @@ class Groups extends Component {
 
     let result = await axios.post("/api/groups", {
       name : this.state.createGroupName,
-      owner : userId
+      owner : this.props.userId
     })
 
     this.toggle()
@@ -72,6 +85,8 @@ class Groups extends Component {
     })
 
   }
+
+
 
 
   changeName = (e) => {
