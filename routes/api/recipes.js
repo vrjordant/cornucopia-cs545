@@ -31,7 +31,7 @@ router.get('/:id', async (req, res) => {
   res.json(recipeObjects);
 });
 
-// @route   POST api/items/:id
+// @route   POST api/recipes/:id
 // @desc    Create A Recipe and add it to a Group
 // @access  Private
 router.post('/:id', async (req, res) => {
@@ -52,15 +52,6 @@ router.post('/:id', async (req, res) => {
     { "$push": { "recipes": recipe._id } } );
 
   res.json(recipe);
-});
-
-// @route   DELETE api/items/:id
-// @desc    Delete A Item
-// @access  Private
-router.delete('/:id', (req, res) => {
-  Item.findById(req.params.id)
-    .then(item => item.remove().then(() => res.json({ success: true })))
-    .catch(err => res.status(404).json({ success: false }));
 });
 
 module.exports = router;
