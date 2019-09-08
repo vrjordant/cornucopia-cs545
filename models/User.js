@@ -16,6 +16,9 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  sessionId: {
+    type: String,
+  },
   groups: {
     type: [ObjectId]
   }

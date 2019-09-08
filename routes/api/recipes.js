@@ -50,7 +50,6 @@ router.post('/:id', async (req, res) => {
   // Add recipe id to Group collection
   await Group.findByIdAndUpdate(req.params.id,
     { "$push": { "recipes": recipe._id } } );
-
   res.json(recipe);
 });
 

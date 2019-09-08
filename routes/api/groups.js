@@ -20,6 +20,17 @@ router.get('/:id', async (req, res) => {
   res.json(group);
 });
 
+// @route   GET api/groups/join/:id
+// @desc    Join a group given the currently logged in User and Group Id
+// @access  Public
+router.get('/join/:id', async (req, res) => {
+  const currentUser = req.cookie;
+  await User.findByIdAndUpdate(currentUser, {
+    "$push": { "groups": req.params.id }
+  });
+  res.json(currentUser);
+});
+
 // @route   POST api/groups
 // @desc    Create a Group
 // @access  Private

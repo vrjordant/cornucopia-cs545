@@ -2,11 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const config = require('config');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
 // Bodyparser Middleware
 app.use(express.json());
+// Cookieparser Middleware
+app.use(cookieParser());
 
 // DB Config
 const db = config.get('mongoURI');
