@@ -24,6 +24,7 @@ router.get('/:id', async (req, res) => {
 // @desc    Join a group given the currently logged in User and Group Id
 // @access  Public
 router.get('/join/:id', async (req, res) => {
+  console.log("Joining group");
   const currentUser = req.cookie;
   await User.findByIdAndUpdate(currentUser, {
     "$push": { "groups": req.params.id }

@@ -24,8 +24,8 @@ class Groups extends Component {
 
     let data = await axios.get("/api/users/" + this.props.userId)
 
-    let group = {}
-    if(data.data[0]._id){
+    let group = {_id : ""}
+    if(data.data.length > 0){
       group = data.data[0]
       this.props.selectGroup(data.data[0])
     }
@@ -40,7 +40,6 @@ class Groups extends Component {
   async componentWillReceiveProps(nextProps){
     //if a recipe is deleted or added call api to update the group so the correct values are there
     if(this.props.toggleRecipe !== nextProps.toggleRecipe){
-      console.log("h")
       let data = await axios.get("/api/users/" + this.props.userId)
 
       if(data.data[0]._id){

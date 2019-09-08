@@ -8,14 +8,14 @@ import Cookies from 'universal-cookie';
 
 import { Navbar } from 'react-bootstrap';
 
-let userId = "5d731e8f8ff90c0198122b81"
+let userId = "5d7454d04e79e955f8fe31b2"
 
 class App extends Component {
 
   constructor() {
     super();
     this.state = {
-      selectedGroup: {},
+      selectedGroup: {_id: ""},
       toggleRecipe: false,
       loggedIn: false,
 

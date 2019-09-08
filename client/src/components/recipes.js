@@ -37,6 +37,8 @@ class Recipes extends Component {
     }
 
     async componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
+        console.log(this.props)
         if (this.props.selectedGroup != nextProps.selectedGroup) {
 
             let data = await axios.get("/api/groups/" + nextProps.selectedGroup._id)
