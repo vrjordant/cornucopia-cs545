@@ -28,23 +28,25 @@
   background-color: rgb(243, 243, 231);
   height: 100vh;
   margin-left: 200px;
-  margin-top: 100px;
+  margin-top: 32px;
   width: 20%;
 }
 
 .Recipes{
   background-color: rgb(243, 243, 231);
   width: 51%;
-  margin: 100px 100px 0px 29px;
+  margin: 32px 100px 0px 29px;
 }
 
 .navbar {
-  background-color: beige !important;
+  background-color:  rgb(243, 243, 231) !important;
 
   margin-left: 198px;
   margin-right: 207px;
 }
 
 .navbar-brand{
-  color:black !important
+  color: black !important;
+  font-size: 25px !important;
+  font-weight: bold;
 }

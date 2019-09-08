@@ -54,6 +54,25 @@ i {
 }
 
 .textInput{
-    border: 0px;
-    border-bottom: 1px solid black 
+    width: 100%;
+    height: 42px;
+    margin-bottom: 10px
+}
+
+.fileInput{
+    margin-bottom: 10px
+}
+.delete{
+    background: none;
+    border: none;
+    color: red;
+    margin-left: 5px;
+}
+
+.addIngredient{
+    font-size: 10px;
+    width: 37px;
+    height: 28px;
+    padding: 0px;
+    margin-bottom: 5px;
 }

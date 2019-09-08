@@ -24,7 +24,7 @@ class Recipes extends Component {
             newRecipeData: {
                 name: "test",
                 description: "",
-                ingredients: ["1", "2"],
+                ingredients: [],
                 instructions: "",
                 image: "",
                 totalTime: 0,
@@ -66,6 +66,19 @@ class Recipes extends Component {
     }
 
     toggleCreate = () => {
+        if (!this.state.createRecipe) {
+            this.setState({
+                newRecipeData: {
+                    name: "test",
+                    description: "",
+                    ingredients: [],
+                    instructions: "",
+                    image: "",
+                    totalTime: 0,
+                    yields: "0"
+                }
+            })
+        }
         this.setState({
             createRecipe: !this.state.createRecipe,
         })
@@ -132,7 +145,7 @@ class Recipes extends Component {
 
     }
 
-    addRecipe = async() => {
+    addRecipe = async () => {
 
         var formData = new FormData();
         formData.append("file", this.state.file)
@@ -142,21 +155,21 @@ class Recipes extends Component {
         let recipes = [...this.state.recipes]
         recipes.push(result.data)
         this.setState({
-            recipes : recipes,
+            recipes: recipes,
             createRecipe: false
-            
+
         })
         this.props.addRecipe()
 
     }
 
     deleteIngredient = (ingredient) => {
-        var recipe = {...this.state.newRecipeData}
+        var recipe = { ...this.state.newRecipeData }
 
         var index = recipe.ingredients.indexOf(ingredient)
         if (index !== -1) {
-          recipe.ingredients.splice(index, 1);
-          this.setState({newRecipeData: recipe});
+            recipe.ingredients.splice(index, 1);
+            this.setState({ newRecipeData: recipe });
         }
     }
 
@@ -167,7 +180,7 @@ class Recipes extends Component {
                 <Modal isOpen={this.state.createRecipe} toggle={this.toggleCreate}>
                     <ModalHeader toggle={this.toggleCreate}>Add A Recipe!</ModalHeader>
                     <ModalBody>
-                    {/* 
+                        {/* 
                         Enter A recipe URL to AutoFill
 
                         <div style={{ display: "flex" }}>
@@ -179,31 +192,17 @@ class Recipes extends Component {
                         <br>
                         </br> */}
 
-                        <div style={{ display: "flex" }}>
-                            Title
-                            <input type="text" className="textInput" onChange={(e) => this.updateValues(e, "title")}
-                                value={this.state.newRecipeData.title}></input>
-
-                        </div>
+                        <input type="text" className="textInput" onChange={(e) => this.updateValues(e, "title")}
+                            value={this.state.newRecipeData.title} placeholder="Title"></input>
 
 
-                        <br>
-                        </br>
-
-                        <input type="file" name="file" onChange={this.uploadPicture} accept="image/x-png,image/gif,image/jpeg" />
-
-
-
-                        <br>
-                        </br>
+                        <input type="file" className="fileInput" name="file" onChange={this.uploadPicture} accept="image/x-png,image/gif,image/jpeg" />
 
                         <div style={{ display: "flex" }}>
-                            Description:
-                            <textarea type="text" className="textInput" onChange={(e) => this.updateValues(e, "description")}
+                            <textarea type="text" placeholder="Description" className="textInput" onChange={(e) => this.updateValues(e, "description")}
                                 value={this.state.newRecipeData.description}></textarea>
 
                         </div>
-                        <br></br>
 
                         Ingredients
                         {this.state.newRecipeData.ingredients.map((ingredient, index) => (
@@ -211,35 +210,23 @@ class Recipes extends Component {
                             <div key={index} style={{ display: "flex" }}>
 
                                 {ingredient}
-                                <button onClick={() => this.deleteIngredient(ingredient)}className="delete">X</button>
+                                <button onClick={() => this.deleteIngredient(ingredient)} className="delete">X</button>
 
                             </div>
 
                         ))}
 
-
-                        <br>
-                        </br>
                         <div style={{ display: "flex" }}>
-                            Add ingredient
-
                             <form onSubmit={this.addIngredient}>
-                                <input type="text" className="ingredient"></input>
-                                <button></button>
+                                <input type="text" placeholder="Enter Another Ingredient" className="ingredient"></input>
+                                <Button className="addIngredient">Add</Button>
 
                             </form>
 
                         </div>
 
-
-
-
-                        Instructions
-
-                        <input type="text" className="textInput" onChange={(e) => this.updateValues(e, "instructions")}
-                            value={this.state.newRecipeData.instructions}></input>
-
-
+                        <textarea type="text" placeholder="Instructions" className="textInput" onChange={(e) => this.updateValues(e, "instructions")}
+                            value={this.state.newRecipeData.instructions}></textarea>
 
                     </ModalBody>
                     <ModalFooter>
@@ -252,8 +239,8 @@ class Recipes extends Component {
                     <ModalHeader toggle={this.toggle}>Copy this Link and Send to your Friends!</ModalHeader>
                     <ModalBody>
 
-                            <p>{groupInv}</p>
-                            <button className="copyButton" onClick={() => this.copyLink(groupInv)}> Copy </button>
+                        <p>{groupInv}</p>
+                        <button className="copyButton" onClick={() => this.copyLink(groupInv)}> Copy </button>
 
                         <Alert color="info" isOpen={this.state.copied}>
                             Link Copied
