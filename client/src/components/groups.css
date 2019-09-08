@@ -1,0 +1,41 @@
+ul {
+  padding:0;
+  list-style:none;
+  width: 30%;
+  margin:auto;
+}
+
+li{
+  font-size:1.2rem;
+  line-height: 2rem;
+  border-bottom: 1px dotted #777;
+}
+h2{
+  padding-top: 22px;
+  text-align: center;
+}
+
+
+.group{
+  width: 231px;
+  margin-top: 10px;
+  font-size : 16px
+
+}
+
+.group:hover { 
+  background-color: rgb(189, 187, 187);
+  cursor: pointer
+}
+.addGroup{
+  background-color: green !important
+}
+.groupSelected{
+  width: 231px;
+  margin-top: 10px;
+  font-size : 16px;
+  background-color: rgb(189, 187, 187) !important
+}
+ul{
+  align-items: center
+}

@@ -1,10 +1,21 @@
 const express = require('express');
 const router = express.Router();
+var multer  = require('multer')
+const fs = require("fs");
+
+var upload = multer({ dest: __dirname+"/files" })
 
 // Recipe Model
 const Recipe = require('../../models/Recipe');
 // Group Model
 const Group = require('../../models/Group');
+
+function base64_encode(file) {
+  // read binary data
+  var bitmap = fs.readFileSync(file);
+  // convert binary data to base64 encoded string
+  return new Buffer(bitmap).toString('base64');
+}
 
 // @route   GET api/recipes/scrape
 // @desc    Get Recipe data using Python scraper
@@ -34,23 +45,37 @@ router.get('/:id', async (req, res) => {
 // @route   POST api/recipes/:id
 // @desc    Create A Recipe and add it to a Group
 // @access  Private
-router.post('/:id', async (req, res) => {
+router.post('/:id', upload.single('file'), async (req, res) => {
   // Create Recipe
+
+
+  
+  
+  let recipe = JSON.parse(req.body.recipe)
+
+  console.log("********88")
+  console.log(recipe)
+  console.log(req.file)
+
+  let base64 = base64_encode(req.file.path);
+
+
   const newRecipe = new Recipe({
-    name: req.body.name,
-    description: req.body.description,
-    image: req.body.image,
-    ingredients: req.body.ingredients,
-    instructions: req.body.instructions,
-    totalTime: req.body.totalTime,
-    yields: req.body.yields
+    name: recipe.name,
+    description: recipe.description,
+    image: base64,
+    ingredients: recipe.ingredients,
+    instructions: recipe.instructions,
+    totalTime: recipe.totalTime,
+    yields: recipe.yields
   });
+
   // Add recipe to Recipe collection
-  const recipe = await newRecipe.save();
+  const final_recipe = await newRecipe.save();
   // Add recipe id to Group collection
   await Group.findByIdAndUpdate(req.params.id,
-    { "$push": { "recipes": recipe._id } } );
-  res.json(recipe);
+    { "$push": { "recipes": final_recipe._id } } );
+  res.json(final_recipe);
 });
 
 module.exports = router;
