@@ -23,13 +23,13 @@ router.get('/:id', async (req, res) => {
 // @route   GET api/groups/join/:id
 // @desc    Join a group given the currently logged in User and Group Id
 // @access  Public
-router.get('/join/:id', async (req, res) => {
+router.get('/join/:gid/:uid', async (req, res) => {
   console.log("Joining group");
-  const currentUser = req.cookie;
-  await User.findByIdAndUpdate(currentUser, {
-    "$push": { "groups": req.params.id }
+
+  await User.findByIdAndUpdate(req.params.uid, {
+    "$push": { "groups": req.params.gid }
   });
-  res.json(currentUser);
+  res.json(uid);
 });
 
 // @route   POST api/groups

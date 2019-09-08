@@ -6,7 +6,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Cookies from 'universal-cookie';
 
 
+
 import { Navbar } from 'react-bootstrap';
+const axios = require('axios');
 
 let userId = "5d7454d04e79e955f8fe31b2"
 
@@ -24,6 +26,14 @@ class App extends Component {
     cookies.set('id', userId, { path: '/' });
     console.log(cookies.get('id')); // Pacman
 
+  }
+
+  async componentDidMount(){
+    var re = /.*\/api\/groups\/join\/.*/
+    if(re.test(window.location.href)){
+      await axios.get(window.location.href + "/" + userId)
+      this.forceUpdate()
+    }
   }
 
   selectGroup = (group) => {
@@ -49,7 +59,7 @@ class App extends Component {
           <Navbar.Brand href="#home">
             <img
               alt=""
-              src="cornucopia.png"
+              src="/cornucopia.png"
               width="50"
               height="34"
               className="d-inline-block align-top"

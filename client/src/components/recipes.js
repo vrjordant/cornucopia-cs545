@@ -37,8 +37,8 @@ class Recipes extends Component {
     }
 
     async componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
-        console.log(this.props)
+
+
         if (this.props.selectedGroup != nextProps.selectedGroup) {
 
             let data = await axios.get("/api/groups/" + nextProps.selectedGroup._id)
@@ -150,7 +150,7 @@ class Recipes extends Component {
     }
 
     render() {
-        let groupInv = "http://localhost:3000/join/" + this.props.selectedGroup._id
+        let groupInv = "http://localhost:3000/api/groups/join/" + this.props.selectedGroup._id
         return (
             <React.Fragment>
                 <Modal isOpen={this.state.createRecipe} toggle={this.toggleCreate}>
