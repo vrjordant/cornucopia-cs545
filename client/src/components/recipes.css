@@ -53,9 +53,21 @@ i {
     padding: 0px 0px 0px 0px;
 }
 
-.textInput{
+.textInputTitle{
     width: 100%;
     height: 42px;
+    margin-bottom: 10px
+}
+
+.textInputBody{
+    width: 100%;
+    height: 200px;
+    margin-bottom: 10px
+}
+
+.textInputDesc{
+    width: 100%;
+    height: 100px;
     margin-bottom: 10px
 }
 

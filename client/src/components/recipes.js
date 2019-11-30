@@ -192,14 +192,14 @@ class Recipes extends Component {
                         <br>
                         </br> */}
 
-                        <input type="text" className="textInput" onChange={(e) => this.updateValues(e, "title")}
+                        <input type="text" className="textInputTitle" onChange={(e) => this.updateValues(e, "title")}
                             value={this.state.newRecipeData.title} placeholder="Title"></input>
 
 
                         <input type="file" className="fileInput" name="file" onChange={this.uploadPicture} accept="image/x-png,image/gif,image/jpeg" />
 
                         <div style={{ display: "flex" }}>
-                            <textarea type="text" placeholder="Description" className="textInput" onChange={(e) => this.updateValues(e, "description")}
+                            <textarea type="text" placeholder="Description" className="textInputDesc" onChange={(e) => this.updateValues(e, "description")}
                                 value={this.state.newRecipeData.description}></textarea>
 
                         </div>
@@ -225,7 +225,7 @@ class Recipes extends Component {
 
                         </div>
 
-                        <textarea type="text" placeholder="Instructions" className="textInput" onChange={(e) => this.updateValues(e, "instructions")}
+                        <textarea type="text" placeholder="Instructions" className="textInputBody" onChange={(e) => this.updateValues(e, "instructions")}
                             value={this.state.newRecipeData.instructions}></textarea>
 
                     </ModalBody>
