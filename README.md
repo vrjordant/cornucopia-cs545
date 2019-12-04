@@ -25,7 +25,8 @@ npm run client
 
 ### Author
 
-Sean Hill
+Calvin Han
+Joseph King
 Jordan Tantuico
 
 ### Version
