@@ -20,6 +20,15 @@ router.get('/:id', async (req, res) => {
   res.json(group);
 });
 
+// @route   DELETE api/groups/:id
+// @desc    Get Group by Id, including Recipes
+// @access  Public
+router.delete('/delete/:id', async (req, res) => {
+  await Group.deleteOne({_id:req.params.id});
+  // Replaces Recipe Ids with actual Recipes
+  res.json({deleteStatus:"completed"});
+});
+
 // @route   GET api/groups/join/:id
 // @desc    Join a group given the currently logged in User and Group Id
 // @access  Public

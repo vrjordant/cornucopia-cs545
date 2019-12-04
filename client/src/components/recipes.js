@@ -92,6 +92,12 @@ class Recipes extends Component {
         })
     }
 
+    deleteGroup = async () => {
+        console.log("delete")
+        await axios.delete("/api/groups/delete/" + this.props.selectedGroup._id)
+        this.props.addRecipe()
+    }
+
     copyLink = (groupInv) => {
 
         navigator.clipboard.writeText(groupInv)
@@ -259,6 +265,10 @@ class Recipes extends Component {
 
                     <div className="addRecipe">
                         <button onClick={this.toggleCreate}>Create Recipe</button>
+                    </div>
+
+                    <div className="deleteGroup">
+                        <button onClick={this.deleteGroup}>Delete Group</button>
                     </div>
 
                 </div>
