@@ -1,6 +1,6 @@
 # Cornucopia
 
-## Quick Start
+## Quick Start (you only need to run the first three commands)
 
 ``` bash
 # Install dependencies for server
